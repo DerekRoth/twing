@@ -14,6 +14,9 @@ export class TwingToken {
     static INTERPOLATION_END_TYPE = 11;
     static COMMENT_START_TYPE = 12;
     static COMMENT_END_TYPE = 13;
+    static VERBATIM_START_TYPE = 14;
+    static VERBATIM_END_TYPE = 15;
+
     private value: string;
     private type: number;
     private lineno: number;

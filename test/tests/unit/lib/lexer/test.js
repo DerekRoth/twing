@@ -297,17 +297,10 @@ baz
             let lexer = createLexer();
             let stream = lexer.tokenize(new TwingSource(template, 'index'));
 
-            test.test('"\\n    {{ \'bla\' }}\\n"', function (test) {
-                testToken(test, stream.expect(TwingToken.TEXT_TYPE), '\n    {{ \'bla\' }}\n', 1, 15);
-
-                test.end();
-            });
-
-            test.test('EOF', function (test) {
-                testToken(test, stream.getCurrent(), null, 3, 18, TwingToken.EOF_TYPE);
-
-                test.end();
-            });
+            testToken(test, stream.expect(TwingToken.VERBATIM_START_TYPE), null, 1, 1);
+            testToken(test, stream.expect(TwingToken.TEXT_TYPE), '\n    {{ \'bla\' }}\n', 1, 15);
+            testToken(test, stream.expect(TwingToken.VERBATIM_END_TYPE), null, 1, 8);
+            testToken(test, stream.getCurrent(), null, 3, 18, TwingToken.EOF_TYPE);
 
             test.end();
         });
@@ -318,17 +311,10 @@ baz
             let lexer = createLexer();
             let stream = lexer.tokenize(new TwingSource(template, 'index'));
 
-            test.test('"*"', function (test) {
-                testToken(test, stream.expect(TwingToken.TEXT_TYPE), '*'.repeat(100000), 1, 15);
-
-                test.end();
-            });
-
-            test.test('EOF', function (test) {
-                testToken(test, stream.getCurrent(), null, 1, 100032, TwingToken.EOF_TYPE);
-
-                test.end();
-            });
+            testToken(test, stream.expect(TwingToken.VERBATIM_START_TYPE), null, 1, 1);
+            testToken(test, stream.expect(TwingToken.TEXT_TYPE), '\'*\'.repeat(100000)', 1, 15);
+            testToken(test, stream.expect(TwingToken.VERBATIM_END_TYPE), null, 1, 8);
+            testToken(test, stream.getCurrent(), null, 1, 100032, TwingToken.EOF_TYPE);
 
             test.end();
         });
